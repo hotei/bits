@@ -1,7 +1,7 @@
 // bits.go
 
 // bits go pkg (c) 2012 David Rook
-// please look for text string "BUG" as there are a few potential lurkers
+// please look for text string "BUG" as there may be lurkers
 package bits
 
 import (
@@ -9,12 +9,29 @@ import (
 	"errors"
 )
 
-const (
-)
+//const (
+//)
+
 var (
 	verbose = false
-	license = "bits go pkg (c) 2012 David Rook released under Simplified BSD License"
+	license = "bits.go pkg (c) 2012 David Rook released under Simplified BSD License"
 )
+
+// BUG(mdr): A few magic numbers related to bits in our choice of uint8.
+// My speculation is that byte may be better choice than uint64, but that needs
+// to be verified through benchmarking.  I doubt difference is more than a few
+// nanoseconds / basic operation :-)  See benchmarks.
+
+// BUG(mdr): This package has NOT been tested on big-endian machine.
+
+//  MUSING
+// 		its possible log2(8) = 3 may be the best choice vs 
+// 			bitbox[]uint64 --> log2(64) = 6
+//		We frequently do shifts for that many bits as in  byteNum := n >> 3
+//			would become wordNum := n >> 6
+//		? Does CPU cycles depend on shift repeat factor ?  
+//		Going to uint64 might break on big-endian since bits are stored
+//			in BitField with lsb first.  Speculation for now. Need to test.
 
 type BitField struct {
 	name   string
@@ -26,7 +43,6 @@ type BitField struct {
 }
 
 var errNonEmptySliceRequired = errors.New("bits: Non-empty slice required")
-// BUG(mdr): AndBitsByNdx() what to report if fed empty set? false now
 
 // returns and'ing of all the many bits selected by the slice indices
 func (b *BitField) AndBitsByNdx(many []int) (bool, error) {

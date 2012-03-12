@@ -99,6 +99,19 @@ Under The Hood
 	* return a slice with indices of the bits with value = true
 
 
+BENCHMARK
+---------
+
+	PASS
+	BenchmarkBitSet	500000000	         7.48 ns/op
+	BenchmarkBitClr	500000000	         7.39 ns/op
+	BenchmarkBitTgl	500000000	         6.95 ns/op
+	BenchmarkBitRead	500000000	     7.37 ns/op
+	BenchmarkBitSetMany	50000000	    35.10 ns/op	 ( sets 4 different bits )
+	BenchmarkBitClrMany	50000000	    33.10 ns/op  ( clrs 4 different bits )
+	BenchmarkBitTglMany	50000000	    34.20 ns/op  ( tgls 4 different bits )
+
+
 TODO
 ----
 
