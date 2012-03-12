@@ -84,7 +84,7 @@ Under The Hood
 	
 * func (b *BitField) String() string
 	* returns string with "010110" representation of bitfield
-	* length is left zero filled to multiple of 8
+	* length is right zero filled to multiple of 8
 	
 * func (b *BitField) TglBit(n int)
 	* Toggle bit at position n
