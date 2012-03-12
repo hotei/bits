@@ -48,7 +48,7 @@ var ErrNonEmptySliceRequired = errors.New("bits: Non-empty slice required")
 func (b *BitField) AndBitsByNdx(many []int) (bool, error) {
 	if len(many) <= 0 {
 		if verbose { fmt.Printf("Warning: AndBitsByNdx(emptySet) isn't meaningful\n")}
-		return false, errNonEmptySliceRequired 
+		return false, ErrNonEmptySliceRequired 
 	}
 	for _, n := range many {
 		if b.Bit(n) == false {
@@ -170,7 +170,7 @@ func (b *BitField) HexString() string {
 func (b *BitField) OrBitsByNdx(many []int) (bool,error) {
 	if len(many) <= 0 {
 		if verbose {fmt.Printf("Warning: OrBitsByNdx(emptySet) isn't meaningful\n")}
-		return false, errNonEmptySliceRequired 
+		return false, ErrNonEmptySliceRequired 
 	}
 	for _, n := range many {
 		if b.Bit(n) == true {
