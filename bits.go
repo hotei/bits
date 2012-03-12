@@ -42,7 +42,7 @@ type BitField struct {
 //	truebits int		use len(bits.TrueBitsLoHi(0,maxbit)) as temp fix?
 }
 
-var errNonEmptySliceRequired = errors.New("bits: Non-empty slice required")
+var ErrNonEmptySliceRequired = errors.New("bits: Non-empty slice required")
 
 // returns and'ing of all the many bits selected by the slice indices
 func (b *BitField) AndBitsByNdx(many []int) (bool, error) {
