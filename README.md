@@ -23,8 +23,9 @@ Under The Hood
 
 	Use it with the following functions:
 
-* func (b *BitField) AndBitsByNdx(many []int) (rv bool)
-	*	returns and'ing of all the many bits selected by the slice indices
+* func (b *BitField) AndBitsByNdx(many []int) (bool, error)
+	* returns and'ing of all the many bits selected by the slice indices
+	* it's an error to apply this to an empty slice
 
 * func (b *BitField) Bit(n int) bool
 	* returns value of the one bit at the nth location
@@ -62,8 +63,9 @@ Under The Hood
 * func (b *BitField) HexDump() string
 	* return hex representation of bitfield as string
 
-* func (b *BitField) OrBitsByNdx(many []int) (rv bool)
+* func (b *BitField) OrBitsByNdx(many []int) (bool,error)
 	* returns or'ing of all the bits selected by the slice
+	* it's an error to apply this to an empty slice
 
 * func (b *BitField) SetBit(n int)
 	* Set one bit
