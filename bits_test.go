@@ -133,34 +133,34 @@ func Test_05(t *testing.T) {
 	//bits.DumpLoHi(2,4)
 	tv, err := bits.OrBitsByNdx([]int{3, 7, 5})
 	if err != nil {
-		fmt.Printf("OrBitsByNdx() %v\n",err)
+		fmt.Printf("OrBitsByNdx() %v\n", err)
 		os.Exit(-1)
 	}
 	if tv != false {
 		t.Fatalf("OrBitsByNdx() failed")
 	}
 
-	tv,err = bits.OrBitsByNdx([]int{3, 7, 5, 2})
+	tv, err = bits.OrBitsByNdx([]int{3, 7, 5, 2})
 	if err != nil {
-		fmt.Printf("OrBitsByNdx() %v\n",err)
+		fmt.Printf("OrBitsByNdx() %v\n", err)
 		os.Exit(-1)
 	}
 	if tv != true {
 		t.Fatalf("OrBitsByNdx() failed")
 	}
 
-	tv,err = bits.AndBitsByNdx([]int{1, 2, 3})
+	tv, err = bits.AndBitsByNdx([]int{1, 2, 3})
 	if err != nil {
-		fmt.Printf("OrBitsByNdx() %v\n",err)
+		fmt.Printf("OrBitsByNdx() %v\n", err)
 		os.Exit(-1)
 	}
 	if tv != false {
 		t.Fatalf("OrBitsByNdx() failed")
 	}
 
-	tv,err = bits.AndBitsByNdx([]int{2, 4, 0})
+	tv, err = bits.AndBitsByNdx([]int{2, 4, 0})
 	if err != nil {
-		fmt.Printf("OrBitsByNdx() %v\n",err)
+		fmt.Printf("OrBitsByNdx() %v\n", err)
 		os.Exit(-1)
 	}
 	if tv != true {
@@ -204,14 +204,35 @@ func Test_06(t *testing.T) {
 	}
 }
 
-// test self-extending feature 
+// test self-extending feature
 func Test_07(t *testing.T) {
 	fmt.Printf("Test_07...\n")
+	fmt.Printf("Self extending feature test\n")
 	var bits BitField
 	//bits.SetMaxBitNdx(16)  // left out on purpose, should not change result
 	bits.SetName("Test_07")
-	bits.SetBit(12)
-	fmt.Printf("%s\n", bits.HexString())
+	oldverbose := verbose
+	verbose = false
+	for testval := 0; testval < 100; testval++ {
+		bits.SetBit(testval)
+		s := bits.HexString()
+		if verbose {
+			fmt.Printf("%s\n", s)
+		}
+		units := (testval + 1) / 8
+		if ((testval + 1) % 8) != 0 {
+			units++
+		}
+		if verbose {
+			fmt.Printf("Self extending feature implies bit[%d] should require %d units of storage (%d hex chars) %d\n",
+				testval, units, units*2, len(s))
+		}
+		if len(s) != (units * 2) {
+			t.Fatalf("Self extending feature failed bit[%d] should require %d units of storage (%d hex chars)\n",
+				testval, units, units*2)
+		}
+	}
+	verbose = oldverbose
 }
 
 // ==========================================================   B E N C H M A R K S

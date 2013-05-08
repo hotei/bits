@@ -1,27 +1,51 @@
 
 <center>
-bits.go
-=======
+package bits
+============
 </center>
 
-
 License details are at the end of this document. 
-This document is (c) 2012 David Rook.
+This document is (c) 2013 David Rook.
 
-Comments can be sent to <hotei1352@gmail.com> .  
+Comments can be sent to <hotei1352@gmail.com>
+
+Description
+-----------
+This [package][1] creates and manipulates arbitrary length bitfields.
 
 ---
 
-Under The Hood
---------------
+Installation
+------------
 
-	declare it with:
-		var mybits BitField
+```
+go get github.com/hotei/bits
+```
 
-	optionally give a size hint
-		mybits.SetMaxBitNdx(100)	// says you plan to use about 100 bits
+---
 
-	Use it with the following functions:
+Take A Quick Peek Under The Hood
+--------------------------------
+```
+
+import "github.com/hotei/bits"
+
+func tryit() {
+	// unknown size for setA 
+	var setA bits.BitField
+	// we know the size of this one
+	var setB bits.BitField
+	setB.SetMaxBitNdx(100)
+	setB.SetBit(2)
+	setB.Dump()
+}
+
+See test files for more examples.
+```
+Features
+--------
+
+Supported functions:  GoDoc.Org http://godoc.org/github.com/hotei/bits
 
 * func (b *BitField) AndBitsByNdx(many []int) (bool, error)
 	* returns and'ing of all the many bits selected by the slice indices
@@ -38,18 +62,6 @@ Under The Hood
 
 * func (b *BitField) ClrLoHi(lo, hi int)
 	* Clear bits in range `[lo..hi]` (inclusive)
-
-	<font color=red>
-
-* func (b *BitField) CountOfTrueBits() int
-	* fast access to true bit count with integer lookup - not a loop
-	* not done yet - need to benchmark vs original
-
-* func (b *BitField) CountOfFalseBits() int
-	* fast access to false bit count with integer lookup - not a loop
-	* not done yet
-
-	</font>
 
 * func (b *BitField) Dump()
 	* Print the whole field to stdout 
@@ -98,32 +110,43 @@ Under The Hood
 * func (b *BitField) TrueBitsLoHi(lo, hi int) []int
 	* return a slice with indices of the bits with value = true
 
-
-BENCHMARK
----------
-
-	PASS
-	BenchmarkBitSet	500000000	         7.48 ns/op
-	BenchmarkBitClr	500000000	         7.39 ns/op
-	BenchmarkBitTgl	500000000	         6.95 ns/op
-	BenchmarkBitRead	500000000	     7.37 ns/op
-	BenchmarkBitSetMany	50000000	    35.10 ns/op	 ( sets 4 different bits )
-	BenchmarkBitClrMany	50000000	    33.10 ns/op  ( clrs 4 different bits )
-	BenchmarkBitTglMany	50000000	    34.20 ns/op  ( tgls 4 different bits )
-
-
+<font color=red>
 TODO
 ----
 
-???
+* func (b *BitField) CountOfTrueBits() int
+	* fast access to true bit count with integer lookup - not a loop
+	* not done yet - need to benchmark vs original
+
+* func (b *BitField) CountOfFalseBits() int
+	* fast access to false bit count with integer lookup - not a loop
+	* not done yet
+
+</font>
 
 ---
+
+BENCHMARK
+---------
+```	
+	Go 1.1rc2 on 4Ghz AMD/64
+	BenchmarkBitSet-4	500000000	         5.69 ns/op
+	BenchmarkBitClr-4	500000000	         5.89 ns/op
+	BenchmarkBitTgl-4	500000000	         5.64 ns/op
+	BenchmarkBitRead-4	500000000	         5.90 ns/op
+	BenchmarkBitSetMany-4	100000000	    28.50 ns/op	 ( sets 4 different bits )
+	BenchmarkBitClrMany-4	100000000	    29.50 ns/op  ( clrs 4 different bits )
+	BenchmarkBitTglMany-4	100000000	    28.40 ns/op  ( tgls 4 different bits )
+```
+
+---
+[1]: http://github.com/hotei/bits "github.com/hotei/bits"
 
 License
 -------
 The 'bits' go package and demo programs are distributed under the Simplified BSD License:
 
-> Copyright (c) 2012 David Rook. All rights reserved.
+> Copyright (c) 2013 David Rook. All rights reserved.
 > 
 > Redistribution and use in source and binary forms, with or without modification, are
 > permitted provided that the following conditions are met:
